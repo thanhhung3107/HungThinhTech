@@ -1,0 +1,50 @@
+.navbar {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+}
+
+.navbar-nav .nav-link {
+	margin-right: 20px; /* Space between navigation links */
+}
+.navbar-nav .dropdown {
+    position: relative; /* Đặt position relative cho phần tử cha của dropdown */
+}
+.navbar-nav:last-child .nav-item {
+	margin-right: 0; /* Remove margin on the last item */
+}
+
+.bi {
+	font-size: 1.5rem; /* Icon size */
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0; /* Căn phải cho dropdown */
+    left: auto; /* Tự động điều chỉnh vị trí bên trái */
+    top: 100%; /* Dropdown bắt đầu ngay dưới nút toggle */
+    min-width: 12rem; /* Đặt kích thước tối thiểu cho dropdown */
+    transform: translateX(-100%); /* Dịch chuyển dropdown sang trái để khớp với phần tử cha */
+}
+
+
+.dropdown-toggle::after {
+	display: none; /* Ẩn mũi tên của dropdown nếu không cần */
+}
+/* Admin nằm riêng bên trái */
+.admin-container {
+    margin-left: auto; /* Pushes the admin button to the right */
+    display: flex; /* Flexbox for centering content within */
+    align-items: center; /* Centers the button vertically */
+}
+
+.admin-link {
+    background-color: #198754; /* Bootstrap's success green for consistency */
+    color: white;
+    padding: 0.375rem 0.75rem; /* Bootstrap standard padding for buttons */
+    border-radius: 0.25rem; /* Bootstrap standard border-radius */
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.admin-link:hover {
+    background-color: #157347; /* Darker shade for hover effect */
+}

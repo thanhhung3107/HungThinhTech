@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${product.productName}"></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/CSS/header.css}">
+	<link rel="stylesheet" th:href="@{/CSS/footer.css}">
+	<style>
+		.product-image-container {
+			border-radius: 10px;
+			overflow: hidden;
+			box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+		}
+
+		.product-image {
+			width: 100%;
+			height: auto;
+			transition: transform 0.3s ease;
+		}
+
+		.product-image:hover {
+			transform: scale(1.05);
+		}
+
+		.size-container {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.size-box {
+			padding: 10px 16px;
+			border: 2px solid #dee2e6;
+			border-radius: 6px;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			background-color: #fff;
+		}
+
+		.size-box:hover:not(.size-disabled) {
+			background-color: #f8f9fa;
+			border-color: #0d6efd;
+		}
+
+		.size-disabled {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+
+		.selected {
+			background-color: #0d6efd;
+			color: #fff;
+			border-color: #0d6efd;
+			font-weight: 600;
+		}
+
+		.related-title {
+			font-size: 1.5rem;
+			margin-top: 50px;
+			margin-bottom: 20px;
+			font-weight: 600;
+		}
+
+		.card-title {
+			font-size: 1rem;
+			font-weight: 500;
+			text-align: center;
+		}
+
+		.price {
+			font-weight: 600;
+			color: #dc3545;
+		}
+	</style>
+</head>
+<body>
+
+<div th:insert="~{frame/header :: header}"></div>
+
+<div class="container mt-5">
+	<div class="row align-items-center">
+		<div class="col-md-6 mb-4">
+			<div class="product-image-container">
+				<img th:src="@{/images/} + ${product.image}" alt="Hình ảnh sản phẩm" class="product-image img-fluid">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<h2 th:text="${product.productName}" class="mb-3"></h2>
+			<p class="price fs-5">
+				Giá: <span th:text="${#numbers.formatDecimal(product.price ,0 ,'COMMA',0,'POINT') + ' VNĐ' }"></span>
+			</p>
+			<p class="text-muted mb-4" th:text="${product.description}"></p>
+
+			<form th:if="${product != null}" th:action="@{/cart/add/{id}(id=${product.productId})}" method="post" onsubmit="return validateCartForm()">
+				<input type="hidden" id="selectedSize" name="sizeId" value="">
+				<div class="mb-3">
+					<label class="form-label fw-semibold">Chọn kích thước:</label>
+					<div class="size-container">
+						<div th:each="size : ${sizes}"
+							 th:classappend="${selectedSize == size.id} ? 'selected' : ''"
+							 th:class="${(sizeStockMap[size.id] != null and sizeStockMap[size.id] > 0) ? 'size-box' : 'size-box size-disabled'}"
+							 th:onclick="${sizeStockMap[size.id] != null and sizeStockMap[size.id] > 0} ? 'selectSize(' + ${size.id} + ')' : ''"
+							 th:data-size-id="${size.id}">
+							<span th:text="${size.sizeName}"></span>
+						</div>
+					</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="quantity" class="form-label">Số lượng:</label>
+					<input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control w-50">
+				</div>
+
+				<button type="submit" class="btn btn-primary w-100 mt-2">
+					<i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+				</button>
+			</form>
+
+			<a th:href="@{/cart}" class="btn btn-outline-dark w-100 mt-3">
+				<i class="fas fa-shopping-cart"></i> Xem giỏ hàng
+			</a>
+		</div>
+	</div>
+</div>
+
+<!-- Sản phẩm liên quan -->
+<div class="container">
+	<h3 class="related-title">Sản phẩm liên quan</h3>
+	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+		<th:block th:each="relatedProduct : ${relatedProducts}">
+			<div class="col">
+				<div class="card h-100">
+					<a th:href="@{/product-detail/{id}(id=${relatedProduct.productId})}">
+						<img th:src="@{/images/} + ${relatedProduct.image}" class="card-img-top" alt="Sản phẩm liên quan">
+					</a>
+					<div class="card-body">
+						<h5 class="card-title" th:text="${relatedProduct.productName}"></h5>
+						<p class="card-text text-center price">
+							<span th:text="${#numbers.formatDecimal(relatedProduct.price, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</th:block>
+	</div>
+</div>
+
+<div class="mt-5"></div>
+<div th:insert="~{frame/footer :: footer}"></div>
+
+<script>
+	function selectSize(sizeId) {
+		document.querySelectorAll('.size-box').forEach(box => box.classList.remove('selected'));
+		let selectedElement = document.querySelector('.size-box[data-size-id="' + sizeId + '"]');
+		if (selectedElement) {
+			selectedElement.classList.add('selected');
+		}
+		document.getElementById('selectedSize').value = sizeId;
+	}
+
+	function validateCartForm() {
+		let selectedSize = document.getElementById('selectedSize').value;
+		if (!selectedSize) {
+			alert("Vui lòng chọn kích thước trước khi thêm vào giỏ hàng!");
+			return false;
+		}
+		return true;
+	}
+</script>
+</body>
+</html>
