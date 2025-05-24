@@ -44,7 +44,7 @@ public class PageController {
 		model.addAttribute("currentPage", page);
 
 		//san pham noi bat
-		Pageable topPageable = PageRequest.of(0, 4); // Lấy top 4 sản phẩm nhiều lượt mua
+		Pageable topPageable = PageRequest.of(0, 6); // Lấy top 4 sản phẩm nhiều lượt mua
 		model.addAttribute("topProducts", productDAO.findTopSellingProducts(topPageable));
 		return "index";
 	}
