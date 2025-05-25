@@ -84,10 +84,16 @@ public class AllProductsController {
 
 		Pageable pageable = PageRequest.of(page, 10);
 
-		// Gọi DAO lọc theo category
-		Category category = new Category();
-		category.setCategoryId(categoryId);
+		// Lấy category đầy đủ từ DB
+		Optional<Category> optionalCategory = categoryDAO.findById(categoryId);
+		if (optionalCategory.isEmpty()) {
+			// Nếu không tìm thấy, có thể chuyển về /all-product hoặc hiển thị trang lỗi
+			return "redirect:/all-product";
+		}
 
+		Category category = optionalCategory.get();
+
+		// Lấy danh sách sản phẩm theo danh mục
 		Page<Product> productPage = productDAO.findByCategory(category, pageable);
 
 		// Đẩy dữ liệu cho view
@@ -96,8 +102,13 @@ public class AllProductsController {
 		model.addAttribute("selectedCategoryId", categoryId);
 		model.addAttribute("categories", categoryDAO.findAll());
 
+		// Breadcrumb
+		model.addAttribute("breadcrumbLevel2", "Danh mục sản phẩm");
+		model.addAttribute("breadcrumbCurrent", category.getCategoryName());
+
 		return "all-products";
 	}
+
 
 
 }
