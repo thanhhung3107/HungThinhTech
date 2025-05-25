@@ -61,7 +61,12 @@ public class DetailController {
 
         // Lưu lại URL sản phẩm chi tiết
         session.setAttribute("lastProductDetailUrl", "/product-detail/" + id);
-        
+
+        // Breadcrumb setup
+        model.addAttribute("breadcrumbLevel2", "Sản phẩm");
+        model.addAttribute("breadcrumbCurrent", product.getProductName());
+
+
         return "product-detail";
     }
 

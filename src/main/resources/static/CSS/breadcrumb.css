@@ -1,0 +1,21 @@
+.custom-breadcrumb {
+    font-size: 1.1rem; /* chữ lớn hơn */
+    background-color: transparent;
+    padding: 10px;
+    margin: 4px;
+}
+
+.custom-breadcrumb .breadcrumb-item a {
+    color: #6c757d; /* xám nhạt cho link */
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.custom-breadcrumb .breadcrumb-item a:hover {
+    color: #000; /* đen khi hover */
+}
+
+.custom-breadcrumb .breadcrumb-item.active {
+    color: #000; /* chữ đen và đậm cho trang hiện tại */
+    font-weight: 600;
+}

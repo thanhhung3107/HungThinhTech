@@ -8,6 +8,7 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 	<link rel="stylesheet" th:href="@{/CSS/header.css}">
 	<link rel="stylesheet" th:href="@{/CSS/footer.css}">
+	<link rel="stylesheet" th:href="@{/CSS/breadcrumb.css}">
 	<style>
 		.product-image-container {
 			border-radius: 10px;
@@ -79,6 +80,10 @@
 <body>
 
 <div th:insert="~{frame/header :: header}"></div>
+<!-- Thêm vào ngay sau <body> hoặc sau <div th:insert="~{frame/header :: header}"> -->
+<div style="height: 100px;"></div> <!-- điều chỉnh theo chiều cao navbar thực tế -->
+<div th:insert="~{frame/breadcrumb :: breadcrumb}"></div>
+
 
 <div class="container mt-5">
 	<div class="row align-items-center">

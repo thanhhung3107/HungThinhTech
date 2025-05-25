@@ -49,6 +49,7 @@ public class AllProductsController {
 
 		model.addAttribute("productPage", productPage);
 		model.addAttribute("currentPage", page);
+		model.addAttribute("breadcrumbCurrent", "Tất cả sản phẩm");
 
 		List<Category> categories = categoryDAO.findAll();
 		model.addAttribute("categories", categories);
