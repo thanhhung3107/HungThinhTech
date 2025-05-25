@@ -21,6 +21,8 @@ public interface ProductDAO extends JpaRepository<Product, Integer> {
     // Tìm kiếm sản phẩm theo tên (không phân biệt hoa thường)
     Page<Product> findByProductNameContainingIgnoreCase(String keyword, Pageable pageable);
 
+    Page<Product> findByCategory(Category category, Pageable pageable);
+
     // Tìm sản phẩm theo danh mục
     List<Product> findByCategory(Category category);
     

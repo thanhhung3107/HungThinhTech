@@ -1,5 +1,9 @@
 .navbar {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999; /* đảm bảo navbar nằm trên cùng */
 }
 
 .navbar-nav .nav-link {

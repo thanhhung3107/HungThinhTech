@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -74,5 +75,28 @@ public class AllProductsController {
 
 	        return "all-products";
 	    }
+
+	@GetMapping("/product/category/{id}")
+	public String viewByCategory(@PathVariable("id") Integer categoryId,
+								 @RequestParam(name = "page", defaultValue = "0") int page,
+								 Model model) {
+
+		Pageable pageable = PageRequest.of(page, 10);
+
+		// Gọi DAO lọc theo category
+		Category category = new Category();
+		category.setCategoryId(categoryId);
+
+		Page<Product> productPage = productDAO.findByCategory(category, pageable);
+
+		// Đẩy dữ liệu cho view
+		model.addAttribute("productPage", productPage);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("selectedCategoryId", categoryId);
+		model.addAttribute("categories", categoryDAO.findAll());
+
+		return "all-products";
+	}
+
 
 }
