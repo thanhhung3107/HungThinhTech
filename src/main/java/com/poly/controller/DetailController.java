@@ -34,7 +34,7 @@ public class DetailController {
         if (product == null) {
             return "error/productNotFound";
         }
-
+   
         // Lấy danh sách tất cả size có trong hệ thống
         List<Size> allSizes = sizeDAO.findAll();
 

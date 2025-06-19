@@ -1,0 +1,18 @@
+ h2 {
+      margin-bottom: 24px;
+      color: #333;
+    }
+    .qr-box {
+      margin-bottom: 24px;
+    }
+    .qr-box img {
+      width: 260px;
+      height: 260px;
+      border: 4px solid #222;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .chat-hint {
+      margin-bottom: 16px;
+      color: #555;
+    }
