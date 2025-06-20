@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thống kê doanh thu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .report-card {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, background-color 0.2s;
+        }
+
+        .report-card:hover {
+            transform: scale(1.03);
+            background-color: #f1f1f1;
+        }
+
+        .report-section {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: #0d6efd;
+        }
+
+        .card-title {
+            margin-top: 0.5rem;
+        }
+        .report-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .active-section {
+            display: block;
+            opacity: 1;
+        }
+
+        .card.report-card.active {
+            background-color: #e3f2fd;
+            border: 1px solid #0d6efd;
+        }
+
+        #backToTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: none;
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.5rem;
+        }
+
+        #backToTopBtn:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container py-5">
+    <h1 class="mb-4 text-center">📊 Tổng hợp thống kê doanh thu</h1>
+
+    <div class="d-flex justify-content-center gap-3 mb-4">
+        <a href="/admin/dashboard" class="btn btn-outline-primary">
+            <i class="fa-solid fa-arrow-left"></i> Quay về trang Admin
+        </a>
+        <a href="/index" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-house"></i> Về trang Chủ
+        </a>
+    </div>
+
+    <!-- Filter Form -->
+    <form class="row g-3 mb-4" method="get" th:action="@{/admin/revenue}">
+        <div class="col-md-4">
+            <label for="from" class="form-label">Từ ngày</label>
+            <input type="date" id="from" name="from" class="form-control"
+                   th:value="${from != null ? #dates.format(from,'yyyy-MM-dd') : ''}">
+        </div>
+        <div class="col-md-4">
+            <label for="to" class="form-label">Đến ngày</label>
+            <input type="date" id="to" name="to" class="form-control"
+                   th:value="${to != null ? #dates.format(to,'yyyy-MM-dd') : ''}">
+        </div>
+        <div class="col-md-4 align-self-end">
+            <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-filter"></i> Lọc theo ngày</button>
+        </div>
+    </form>
+
+    <!-- Cards Section -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card report-card text-center" onclick="showSection('section-day')">
+                <div class="card-body">
+                    <i class="fa-solid fa-calendar-day card-icon"></i>
+                    <h5 class="card-title">Theo ngày</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card report-card text-center" onclick="showSection('section-month')">
+                <div class="card-body">
+                    <i class="fa-solid fa-calendar-alt card-icon"></i>
+                    <h5 class="card-title">Theo tháng</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card report-card text-center" onclick="showSection('section-year')">
+                <div class="card-body">
+                    <i class="fa-solid fa-calendar card-icon"></i>
+                    <h5 class="card-title">Theo năm</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card report-card text-center" onclick="showSection('section-product')">
+                <div class="card-body">
+                    <i class="fa-solid fa-box-open card-icon"></i>
+                    <h5 class="card-title">Theo sản phẩm</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card report-card text-center" onclick="showSection('section-category')">
+                <div class="card-body">
+                    <i class="fa-solid fa-tags card-icon"></i>
+                    <h5 class="card-title">Theo danh mục</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card report-card text-center" onclick="showSection('section-payment')">
+                <div class="card-body">
+                    <i class="fa-solid fa-credit-card card-icon"></i>
+                    <h5 class="card-title">Theo thanh toán</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card report-card text-center" onclick="showSection('section-user')">
+                <div class="card-body">
+                    <i class="fa-solid fa-user card-icon"></i>
+                    <h5 class="card-title">Theo người dùng</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div id="section-day" class="report-section">
+        <h4>Doanh thu theo ngày</h4>
+        <table class="table table-bordered">
+            <thead><tr><th>Ngày</th><th class="text-end">Doanh thu</th></tr></thead>
+            <tbody>
+            <tr th:each="row : ${byDay}">
+                <td th:text="${row[0]}"></td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(row[1],0,'COMMA',0,'POINT') + ' ₫'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="section-month" class="report-section">
+        <h4>Doanh thu theo tháng</h4>
+        <table class="table table-bordered">
+            <thead><tr><th>Tháng</th><th class="text-end">Doanh thu</th></tr></thead>
+            <tbody>
+            <tr th:each="row : ${byMonth}">
+                <td th:text="${row[0]} + '-' + ${row[1]}"></td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(row[2],0,'COMMA',0,'POINT') + ' ₫'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="section-year" class="report-section">
+        <h4>Doanh thu theo năm</h4>
+        <table class="table table-bordered">
+            <thead><tr><th>Năm</th><th class="text-end">Doanh thu</th></tr></thead>
+            <tbody>
+            <tr th:each="row : ${byYear}">
+                <td th:text="${row[0]}"></td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(row[1],0,'COMMA',0,'POINT') + ' ₫'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="section-product" class="report-section">
+        <h4>Doanh thu theo sản phẩm</h4>
+        <table class="table table-bordered">
+            <thead><tr><th>ID</th><th>Tên sản phẩm</th><th class="text-end">Doanh thu</th></tr></thead>
+            <tbody>
+            <tr th:each="row : ${byProduct}">
+                <td th:text="${row[0]}"></td>
+                <td th:text="${row[1]}"></td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(row[2],0,'COMMA',0,'POINT') + ' ₫'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="section-category" class="report-section">
+        <h4>Doanh thu theo danh mục</h4>
+        <table class="table table-bordered">
+            <thead><tr><th>ID</th><th>Tên danh mục</th><th class="text-end">Doanh thu</th></tr></thead>
+            <tbody>
+            <tr th:each="row : ${byCategory}">
+                <td th:text="${row[0]}"></td>
+                <td th:text="${row[1]}"></td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(row[2],0,'COMMA',0,'POINT') + ' ₫'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="section-payment" class="report-section">
+        <h4>Doanh thu theo phương thức thanh toán</h4>
+        <table class="table table-bordered">
+            <thead><tr><th>Phương thức</th><th class="text-end">Doanh thu</th></tr></thead>
+            <tbody>
+            <tr th:each="row : ${byPayment}">
+                <td th:text="${row[0] != null ? row[0] : 'N/A'}"></td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(row[1],0,'COMMA',0,'POINT') + ' ₫'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="section-user" class="report-section">
+        <h4>Doanh thu theo người dùng</h4>
+        <table class="table table-bordered">
+            <thead><tr><th>ID</th><th>Họ tên</th><th class="text-end">Doanh thu</th></tr></thead>
+            <tbody>
+            <tr th:each="row : ${byUser}">
+                <td th:text="${row[0]}"></td>
+                <td th:text="${row[1]}"></td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(row[2],0,'COMMA',0,'POINT') + ' ₫'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Nút quay lại đầu trang -->
+<button id="backToTopBtn" onclick="scrollToTop()">
+    <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<script>
+    function showSection(id) {
+        // Ẩn tất cả section
+        document.querySelectorAll('.report-section').forEach(section => {
+            section.classList.remove('active-section');
+        });
+        // Gỡ active card
+        document.querySelectorAll('.report-card').forEach(card => {
+            card.classList.remove('active');
+        });
+
+        // Hiện section được chọn
+        const section = document.getElementById(id);
+        if (section) section.classList.add('active-section');
+
+        // Tô đậm card đang chọn
+        const card = document.querySelector(`[onclick="showSection('${id}')"]`);
+        if (card) card.classList.add('active');
+    }
+
+    // Hiển thị mặc định "theo ngày"
+    window.addEventListener("DOMContentLoaded", () => {
+        showSection('section-day');
+    });
+
+    // Xử lý nút scroll lên đầu trang
+    const backToTopBtn = document.getElementById("backToTopBtn");
+    window.addEventListener("scroll", () => {
+        backToTopBtn.style.display = window.scrollY > 200 ? "block" : "none";
+    });
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+</script>
+
+</body>
+</html>

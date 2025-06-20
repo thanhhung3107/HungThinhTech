@@ -220,13 +220,7 @@ h1 {
 					Tổng cộng: <span id="totalAmount"
 						th:text="${#numbers.formatDecimal(total ,0,'COMMA',0,'POINT') + ' VNĐ'}"></span>
 				</h3>
-				<form th:action="@{/checkout}" method="post">
-					<label for="paymentMethod">Chọn phương thức thanh toán:</label> <select
-						name="paymentMethod" id="paymentMethod" class="form-select">
-						<option value="COD">Thanh toán khi nhận hàng (COD)</option>
-						<option value="BANKING">Chuyển khoản ngân hàng</option>
-						<option value="MOMO">Thanh toán qua MOMO</option>
-					</select>
+				<form th:action="@{/order/checkout}" method="get">
 					<button type="submit" class="btn btn-primary">Thanh toán</button>
 				</form>
 			</div>

@@ -23,7 +23,7 @@
                     <td th:text="${order.orderID}"></td>
                     <td th:text="${order.user.fullName}"></td> <td th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy')}"></td>
                     <td th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
-                    <td th:text="${order.statusId == 1 ? 'Đặt hàng thành công' : (order.statusId == 2 ? 'Đặt hàng thất bại' : order.statusId)}"></td>
+                    <td th:text="${order.statusDescription}"></td>
                     <td>
                         <a th:href="@{/orders/{id}(id=${order.orderID})}" class="btn btn-success btn-sm">Xem chi tiết</a>
                     </td>

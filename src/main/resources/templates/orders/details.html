@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,40 +5,52 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Order Details</h1>
+<div class="container mt-4">
+    <h1>Chi tiết đơn hàng</h1>
 
-        <p><b>Order ID:</b> <span th:text="${order.orderID}"></span></p>
-        <p><b>User Name:</b> <span th:text="${order.user != null ? order.user.fullName : 'N/A'}"></span></p>
-        <p><b>Order Date:</b> <span th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy')}"></span></p>
-        <p><b>Total Amount:</b> <span th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span></p>
-        <p><b>Status:</b> <span th:text="${order.statusId == 1 ? 'Đặt hàng thành công' : (order.statusId == 2 ? 'Đặt hàng thất bại' : order.statusId)}"></span></p>
+    <p><strong>Mã đơn hàng:</strong> <span th:text="${order.orderID}"></span></p>
+    <p><strong>Khách hàng:</strong> <span th:text="${order.user.fullName}"></span></p>
+    <p><strong>Ngày đặt:</strong> <span th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy')}"></span></p>
+    <p><strong>Tổng tiền:</strong> <span th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span></p>
+    <p><strong>Trạng thái:</strong> <span th:text="${order.getStatusDescription()}"></span></p>
 
-        <h2>Order Items</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Product Image</th>
-                    <th>Size</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="orderDetail : ${orderDetails}">
-                    <td th:text="${orderDetail.product.productName}"></td>
-                    <td><img th:src="@{/images/} + ${orderDetail.product.image}" alt="Product Image" style="max-width: 50px; max-height: 50px;"></td>
-                     <td th:text="${orderDetail.size.sizeName}"></td>
-                    <td th:text="${orderDetail.quantity}"></td>
-                    <td th:text="${#numbers.formatDecimal(orderDetail.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
-                </tr>
-            </tbody>
-        </table>
+    <form method="post" th:action="@{/orders/update-status}" class="mb-4">
+        <input type="hidden" name="orderId" th:value="${order.orderID}">
+        <div class="input-group">
+            <select class="form-select" name="statusId">
+                <option th:each="status : ${statuses}"
+                        th:value="${status.code}"
+                        th:selected="${status.code == order.statusId}"
+                        th:text="${status.description}">
+                </option>
+            </select>
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+        </div>
+    </form>
 
-        <a href="/orders" class="btn btn-secondary">Back to Order List</a>
-    </div>
+    <h4>Sản phẩm trong đơn</h4>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Hình ảnh</th>
+            <th>Size</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="detail : ${orderDetails}">
+            <td th:text="${detail.product.productName}"></td>
+            <td><img th:src="@{'/images/' + ${detail.product.image}}" style="max-height: 60px;"></td>
+            <td th:text="${detail.size.sizeName}"></td>
+            <td th:text="${detail.quantity}"></td>
+            <td th:text="${#numbers.formatDecimal(detail.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+        </tr>
+        </tbody>
+    </table>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <a href="/orders" class="btn btn-secondary">← Quay lại danh sách đơn</a>
+</div>
 </body>
 </html>

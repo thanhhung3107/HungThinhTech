@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.poly.enums.OrderStatus;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,12 +17,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Orders")
 public class Order implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderID;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Lazy loading để tối ưu hiệu suất
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -42,6 +44,12 @@ public class Order implements Serializable {
 
     @PrePersist
     protected void onCreate() {
-        orderDate = new Date(); // Tự động cập nhật ngày đặt hàng khi tạo Order
+        orderDate = new Date();
+    }
+
+    @Transient
+    public String getStatusDescription() {
+        OrderStatus status = OrderStatus.fromCode(this.statusId);
+        return status != null ? status.getDescription() : "Không xác định";
     }
 }

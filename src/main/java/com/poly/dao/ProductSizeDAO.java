@@ -3,6 +3,7 @@ package com.poly.dao;
 import java.util.List;
 import java.util.Optional;
 
+import com.poly.model.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,4 +34,6 @@ public interface ProductSizeDAO extends JpaRepository<ProductSize, Integer> {
     @Query("SELECT ps FROM ProductSize ps WHERE ps.product.productId = :productId AND ps.size.id = :sizeId")
     Optional<ProductSize> findByProductAndSize(@Param("productId") Integer productId, 
                                                @Param("sizeId") Integer sizeId);
+
+    ProductSize findByProductAndSize(Product product, Size size);
 }
