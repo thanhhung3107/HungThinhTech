@@ -1,12 +1,5 @@
 package com.poly.controller;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.poly.dao.CartDAO;
 import com.poly.dao.OrderDAO;
 import com.poly.dao.OrderDetailDAO;
@@ -16,6 +9,14 @@ import com.poly.model.OrderDetail;
 import com.poly.model.User;
 import com.poly.service.EmailService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class CheckoutController {
@@ -33,21 +34,21 @@ public class CheckoutController {
     EmailService emailService;
 
     @PostMapping("/checkout")
-    public String checkout(@RequestParam("paymentMethod") String paymentMethod, HttpSession session) { 
-        User user = (User) session.getAttribute("user");  
+    public String checkout(@RequestParam("paymentMethod") String paymentMethod, HttpSession session) {
+        User user = (User) session.getAttribute("user");
         if (user == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
         List<Cart> cartItems = cartDAO.findByUser(user);
         if (cartItems.isEmpty()) {
-            return "redirect:/cart"; 
+            return "redirect:/cart";
         }
 
         // ✅ Tạo đơn hàng
         Order order = new Order();
         order.setUser(user);
-        order.setTotalAmount(calculateTotal(cartItems)); 
+        order.setTotalAmount(calculateTotal(cartItems));
         order.setStatusId(1); // Đã đặt hàng
         order.setPaymentMethod(paymentMethod);
         orderDAO.save(order);
@@ -76,7 +77,7 @@ public class CheckoutController {
         // ✅ Gửi email xác nhận đơn hàng
         sendOrderConfirmationEmail(user, order);
 
-        return "redirect:/checkout-success"; 
+        return "redirect:/checkout-success";
     }
 
     private double calculateTotal(List<Cart> cartItems) {
@@ -85,7 +86,7 @@ public class CheckoutController {
 
     @GetMapping("/checkout-success")
     public String checkoutSuccess(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user"); 
+        User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }

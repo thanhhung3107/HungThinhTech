@@ -4,13 +4,10 @@ import com.poly.dao.CategoryDAO;
 import com.poly.dao.ProductDAO;
 import com.poly.dao.ProductSizeDAO;
 import com.poly.dao.SizeDAO;
-import com.poly.model.Category;
 import com.poly.model.Product;
 import com.poly.model.ProductSize;
 import com.poly.model.Size;
-
 import jakarta.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,27 +27,28 @@ public class ProductController {
 
     @Autowired
     private ProductDAO productDAO;
-    
+
     @Autowired
     private ProductSizeDAO productSizeDAO;
     @Autowired
     private CategoryDAO categoryDAO;
-    
+
     @Autowired
     private SizeDAO sizeDAO;
+
     @GetMapping("/list")
     public String listProducts(Model model) {
         List<Product> products = productDAO.findAll();
         model.addAttribute("products", products);
         return "product/list";
     }
-    
-    
+
+
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("categories",categoryDAO.findAll());
-     // Lấy danh sách size từ database
+        model.addAttribute("categories", categoryDAO.findAll());
+        // Lấy danh sách size từ database
         List<Size> sizes = sizeDAO.findAll();
         model.addAttribute("sizes", sizes); // Load danh sách size
         return "product/create";
@@ -94,6 +87,7 @@ public class ProductController {
 
         return "redirect:/product/list";
     }
+
     @PostMapping("/update")
     public String updateProduct(
             @RequestParam("productId") Integer productId,
@@ -141,7 +135,7 @@ public class ProductController {
     public String editProduct(@PathVariable("id") int productId, Model model) {
         // Lấy thông tin sản phẩm cần chỉnh sửa
         Product product = productDAO.findById(productId)
-                              .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
 
         // Lấy danh sách tất cả kích thước có trong hệ thống
         List<Size> allSizes = sizeDAO.findAll();
@@ -168,7 +162,6 @@ public class ProductController {
     }
 
 
-
     @PostMapping("/delete/{id}")
     @Transactional
     public String deleteProduct(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
@@ -180,7 +173,6 @@ public class ProductController {
         }
         return "redirect:/product/list";
     }
-
 
 
 }

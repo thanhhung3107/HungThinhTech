@@ -13,8 +13,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Report {
-	@Id
-	Serializable group;
-	Double sum;
-	Long count;
+    @Id
+    Serializable group;
+    Double sum;
+    Long count;
 }

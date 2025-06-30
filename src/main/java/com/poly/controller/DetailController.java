@@ -1,23 +1,21 @@
 package com.poly.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import com.poly.dao.ProductDAO;
 import com.poly.dao.ProductSizeDAO;
 import com.poly.dao.SizeDAO;
 import com.poly.model.Product;
 import com.poly.model.ProductSize;
 import com.poly.model.Size;
-
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class DetailController {
@@ -28,13 +26,14 @@ public class DetailController {
     private SizeDAO sizeDAO;
     @Autowired
     private ProductSizeDAO productSizeDAO;
+
     @GetMapping("/product-detail/{id}")
     public String productDetail(@PathVariable("id") Integer id, Model model, HttpSession session) {
         Product product = productDAO.findById(id).orElse(null);
         if (product == null) {
             return "error/productNotFound";
         }
-   
+
         // Lấy danh sách tất cả size có trong hệ thống
         List<Size> allSizes = sizeDAO.findAll();
 

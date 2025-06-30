@@ -3,7 +3,6 @@ package com.poly.controller;
 import com.poly.dao.UserDAO;
 import com.poly.model.User;
 import com.poly.service.EmailService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +36,7 @@ public class RegisterController {
             }
 
             // Thiết lập Role mặc định là 2 (User)
-            user.setRoleID(2); 
+            user.setRoleID(2);
 
             // Lưu user vào database
             userDAO.save(user);

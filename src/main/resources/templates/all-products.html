@@ -167,7 +167,8 @@
                     <li th:each="category : ${categories}">
                         <a class="text-decoration-none"
                            th:classappend="${selectedCategoryId == category.categoryId} ? 'active'"
-                           th:href="@{/product/category/{id}(id=${category.categoryId})}" th:text="${category.CategoryName}"></a>
+                           th:href="@{/product/category/{id}(id=${category.categoryId})}"
+                           th:text="${category.CategoryName}"></a>
                     </li>
                 </ul>
             </div>
@@ -200,8 +201,9 @@
                     </li>
                     <li class="page-item" th:classappend="${productPage.number == page} ? 'active'"
                         th:each="page : ${#numbers.sequence(0, productPage.totalPages - 1)}"><a class="page-link"
-                                                                                     th:href="@{/all-product?page=} + ${page} + ${keyword != null ? '&keyword=' + keyword : ''}"
-                                                                                     th:text="${page + 1}"></a></li>
+                                                                                                th:href="@{/all-product?page=} + ${page} + ${keyword != null ? '&keyword=' + keyword : ''}"
+                                                                                                th:text="${page + 1}"></a>
+                    </li>
                     <li class="page-item" th:if="${productPage.hasNext()}"><a class="page-link"
                                                                               th:href="@{/all-product?page=} + ${productPage.number + 1} + ${keyword != null ? '&keyword=' + keyword : ''}">Tiếp</a>
                     </li>

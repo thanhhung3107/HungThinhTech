@@ -1,18 +1,13 @@
 package com.poly.model;
 
-import java.io.Serializable;
-import java.util.List;
-import lombok.ToString;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,8 +18,8 @@ import lombok.NoArgsConstructor;
 public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    
+
+
     @Column(name = "category_id")
     private Integer categoryId;
 
@@ -33,6 +28,6 @@ public class Category implements Serializable {
 
     @OneToMany(mappedBy = "category") // "category" là tên trường trong class Product
     private List<Product> products; // Danh sách các sản phẩm thuộc danh mục này
-   
-    
+
+
 }

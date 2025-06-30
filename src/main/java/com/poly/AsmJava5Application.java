@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 public class AsmJava5Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AsmJava5Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AsmJava5Application.class, args);
+    }
 
 }

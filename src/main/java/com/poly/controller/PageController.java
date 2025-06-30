@@ -1,7 +1,6 @@
 package com.poly.controller;
 
 import com.poly.dao.ProductDAO;
-import com.poly.dao.SizeDAO;
 import com.poly.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,54 +9,53 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PageController {
 
-	@Autowired
-	private ProductDAO productDAO;
+    @Autowired
+    private ProductDAO productDAO;
 
-	@GetMapping("/index")
-	public String showProducts(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
-			@RequestParam(name = "keyword", required = false) String keyword) { // Thêm tham số keyword
+    @GetMapping("/index")
+    public String showProducts(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+                               @RequestParam(name = "keyword", required = false) String keyword) { // Thêm tham số keyword
 
-		int pageSize = 12;
-		Pageable pageable = PageRequest.of(page, pageSize);
+        int pageSize = 12;
+        Pageable pageable = PageRequest.of(page, pageSize);
 
-		Page<Product> productPage;
+        Page<Product> productPage;
 
-		if (keyword != null && !keyword.isEmpty()) {
-			// Tìm kiếm theo keyword
-			productPage = productDAO.findByProductNameContainingIgnoreCase(keyword, pageable); // Hoặc một phương thức
-																								// tìm kiếm khác phù hợp
-			model.addAttribute("keyword", keyword); // Lưu keyword để hiển thị lại trong form tìm kiếm
+        if (keyword != null && !keyword.isEmpty()) {
+            // Tìm kiếm theo keyword
+            productPage = productDAO.findByProductNameContainingIgnoreCase(keyword, pageable); // Hoặc một phương thức
+            // tìm kiếm khác phù hợp
+            model.addAttribute("keyword", keyword); // Lưu keyword để hiển thị lại trong form tìm kiếm
 
-		} else {
-			// Hiển thị tất cả sản phẩm
-			productPage = productDAO.findAll(pageable);
+        } else {
+            // Hiển thị tất cả sản phẩm
+            productPage = productDAO.findAll(pageable);
 
-		}
+        }
 
-		model.addAttribute("productPage", productPage);
-		model.addAttribute("currentPage", page);
+        model.addAttribute("productPage", productPage);
+        model.addAttribute("currentPage", page);
 
-		//san pham noi bat
-		Pageable topPageable = PageRequest.of(0, 6); // Lấy top 4 sản phẩm nhiều lượt mua
-		model.addAttribute("topProducts", productDAO.findTopSellingProducts(topPageable));
-		return "index";
-	}
+        //san pham noi bat
+        Pageable topPageable = PageRequest.of(0, 6); // Lấy top 4 sản phẩm nhiều lượt mua
+        model.addAttribute("topProducts", productDAO.findTopSellingProducts(topPageable));
+        return "index";
+    }
 
-	@GetMapping("/info")
-	public String showInfoForm() {
-		return "info";
-	}
+    @GetMapping("/info")
+    public String showInfoForm() {
+        return "info";
+    }
 
-	@GetMapping("/")
-	public String redirectToIndex() {
-		return "redirect:/index";
-	}
+    @GetMapping("/")
+    public String redirectToIndex() {
+        return "redirect:/index";
+    }
 
 
 }

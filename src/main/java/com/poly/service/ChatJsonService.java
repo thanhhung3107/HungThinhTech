@@ -53,7 +53,8 @@ public class ChatJsonService {
                 System.out.println("⚠️ File JSON chưa tồn tại, tạo danh sách rỗng.");
                 return new ArrayList<>();
             }
-            return objectMapper.readValue(file, new TypeReference<List<Message>>() {});
+            return objectMapper.readValue(file, new TypeReference<List<Message>>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
             return new ArrayList<>();

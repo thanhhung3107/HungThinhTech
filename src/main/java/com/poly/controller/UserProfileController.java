@@ -1,17 +1,19 @@
 package com.poly.controller;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
-import org.springframework.ui.Model;
-
-import jakarta.servlet.http.HttpSession;
-import com.poly.model.User;
 import com.poly.dao.UserDAO;
+import com.poly.model.User;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/profile")
 public class UserProfileController {
-    
+
     private final UserDAO userDAO;
 
     public UserProfileController(UserDAO userDAO) {

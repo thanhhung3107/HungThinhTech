@@ -1,5 +1,5 @@
 .navbar {
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
     position: fixed;
     top: 0;
     width: 100%;
@@ -7,17 +7,19 @@
 }
 
 .navbar-nav .nav-link {
-	margin-right: 20px; /* Space between navigation links */
+    margin-right: 20px; /* Space between navigation links */
 }
+
 .navbar-nav .dropdown {
     position: relative; /* Đặt position relative cho phần tử cha của dropdown */
 }
+
 .navbar-nav:last-child .nav-item {
-	margin-right: 0; /* Remove margin on the last item */
+    margin-right: 0; /* Remove margin on the last item */
 }
 
 .bi {
-	font-size: 1.5rem; /* Icon size */
+    font-size: 1.5rem; /* Icon size */
 }
 
 .dropdown-menu {
@@ -31,8 +33,9 @@
 
 
 .dropdown-toggle::after {
-	display: none; /* Ẩn mũi tên của dropdown nếu không cần */
+    display: none; /* Ẩn mũi tên của dropdown nếu không cần */
 }
+
 /* Admin nằm riêng bên trái */
 .admin-container {
     margin-left: auto; /* Pushes the admin button to the right */

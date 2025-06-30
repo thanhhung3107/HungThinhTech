@@ -1,11 +1,16 @@
 package com.poly.controller;
 
-import com.poly.dao.*;
-import com.poly.model.*;
+import com.poly.dao.OrderDAO;
+import com.poly.dao.UserDAO;
+import com.poly.model.Order;
+import com.poly.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -15,7 +20,7 @@ public class UserController {
 
     @Autowired
     private UserDAO userDAO;
-    
+
     @Autowired
     private OrderDAO orderDAO;
 

@@ -11,38 +11,46 @@
         body {
             background-color: #f9f9f9;
         }
+
         .card {
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             border: none;
         }
+
         .card-header {
             font-size: 1.1rem;
             font-weight: bold;
         }
+
         .form-control:focus {
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
+
         .table th, .table td {
             vertical-align: middle;
             text-align: center;
         }
+
         .table img {
             max-width: 70px;
             border-radius: 6px;
         }
+
         .btn-success {
             font-size: 16px;
             padding: 12px;
             font-weight: bold;
         }
+
         .qr-code {
             background-color: #fff;
             padding: 16px;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             margin-top: 10px;
         }
+
         .qr-code img {
             max-width: 100%;
             height: auto;
@@ -65,36 +73,43 @@
 
                         <div class="mb-3">
                             <label class="form-label">Họ & Tên</label>
-                            <input type="text" name="fullName" class="form-control" placeholder="Nhập họ và tên" required th:value="${user.fullName}"/>
+                            <input type="text" name="fullName" class="form-control" placeholder="Nhập họ và tên"
+                                   required th:value="${user.fullName}"/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Nhập email" required th:value="${user.email}"/>
+                            <input type="email" name="email" class="form-control" placeholder="Nhập email" required
+                                   th:value="${user.email}"/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Số điện thoại</label>
-                            <input type="tel" name="phone" class="form-control" placeholder="Nhập số điện thoại" required th:value="${user.phone}"/>
+                            <input type="tel" name="phone" class="form-control" placeholder="Nhập số điện thoại"
+                                   required th:value="${user.phone}"/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Địa chỉ giao hàng</label>
-                            <input type="text" name="address" class="form-control" placeholder="Nhập địa chỉ cụ thể" required th:value="${user.address}"/>
+                            <input type="text" name="address" class="form-control" placeholder="Nhập địa chỉ cụ thể"
+                                   required th:value="${user.address}"/>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Phương thức thanh toán</label><br>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="paymentMethod" value="COD" id="payCod" checked onchange="toggleQr(false)">
+                                <input class="form-check-input" type="radio" name="paymentMethod" value="COD"
+                                       id="payCod" checked onchange="toggleQr(false)">
                                 <label class="form-check-label" for="payCod">Thanh toán khi nhận hàng</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="paymentMethod" value="BankTransfer" id="payQr" onchange="toggleQr(true)">
+                                <input class="form-check-input" type="radio" name="paymentMethod" value="BankTransfer"
+                                       id="payQr" onchange="toggleQr(true)">
                                 <label class="form-check-label" for="payQr">Chuyển khoản (QR)</label>
                             </div>
                         </div>
 
                         <div id="qr-code" class="qr-code text-center" style="display:none;">
                             <p>Quét mã để thanh toán</p>
-                            <img th:src="@{/qrpay(merchant=${merchantAccount}, amount=${total}, ref=${orderId})}" alt="QR thanh toán"/>
+                            <img th:src="@{/qrpay(merchant=${merchantAccount}, amount=${total}, ref=${orderId})}"
+                                 alt="QR thanh toán"/>
                         </div>
 
                         <button type="submit" class="btn btn-success w-100 mt-3">Xác nhận và đặt hàng</button>
@@ -131,7 +146,9 @@
                         </tbody>
                     </table>
                     <div class="p-3 text-end">
-                        <h5>Tổng cộng: <span class="text-primary" th:text="${#numbers.formatDecimal(total ,0,'COMMA',0,'POINT') + ' VNĐ'}"></span></h5>
+                        <h5>Tổng cộng: <span class="text-primary"
+                                             th:text="${#numbers.formatDecimal(total ,0,'COMMA',0,'POINT') + ' VNĐ'}"></span>
+                        </h5>
                     </div>
                 </div>
             </div>

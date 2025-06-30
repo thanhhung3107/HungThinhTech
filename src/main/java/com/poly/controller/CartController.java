@@ -1,7 +1,7 @@
 package com.poly.controller;
 
-import com.poly.model.*;
 import com.poly.dao.*;
+import com.poly.model.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,16 +23,16 @@ public class CartController {
 
     @Autowired
     private ProductDAO productDAO;
-    
+
     @Autowired
     private ProductSizeDAO productSizeDAO;
-    
+
     @Autowired
     private OrderDAO orderDAO;
-    
+
     @Autowired
     private SizeDAO sizeDAO;
-    
+
     @GetMapping
     public String viewCart(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -47,7 +47,7 @@ public class CartController {
     }
 
     @PostMapping("/add/{id}")
-    public String addToCart(@PathVariable("id") Integer productId, 
+    public String addToCart(@PathVariable("id") Integer productId,
                             @RequestParam("sizeId") Integer sizeId,
                             @RequestParam("quantity") Integer quantity,
                             HttpSession session, RedirectAttributes redirectAttributes) {
@@ -147,10 +147,10 @@ public class CartController {
         if (user == null) {
             return "redirect:/login";
         }
-        
+
         model.addAttribute("cartItems", cartDAO.findByUser(user));
         model.addAttribute("total", cartDAO.calculateTotalByUser(user));
-        
+
         return "checkout";
     }
 }

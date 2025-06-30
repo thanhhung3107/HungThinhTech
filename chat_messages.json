@@ -1,1 +1,32 @@
-[{"senderId":1,"receiverId":5,"text":"Hello","timestamp":null},{"senderId":1,"receiverId":1,"text":"Xin chào","timestamp":null},{"senderId":1,"receiverId":2,"text":"Ê ","timestamp":null},{"senderId":1,"receiverId":3,"text":"Hello","timestamp":null},{"senderId":1,"receiverId":3,"text":"Gì z","timestamp":null}]
+[
+  {
+    "senderId": 1,
+    "receiverId": 5,
+    "text": "Hello",
+    "timestamp": null
+  },
+  {
+    "senderId": 1,
+    "receiverId": 1,
+    "text": "Xin chào",
+    "timestamp": null
+  },
+  {
+    "senderId": 1,
+    "receiverId": 2,
+    "text": "Ê ",
+    "timestamp": null
+  },
+  {
+    "senderId": 1,
+    "receiverId": 3,
+    "text": "Hello",
+    "timestamp": null
+  },
+  {
+    "senderId": 1,
+    "receiverId": 3,
+    "text": "Gì z",
+    "timestamp": null
+  }
+]

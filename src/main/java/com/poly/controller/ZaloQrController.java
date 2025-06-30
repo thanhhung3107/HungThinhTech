@@ -3,18 +3,16 @@ package com.poly.controller;
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 @RestController
 public class ZaloQrController {
@@ -26,20 +24,20 @@ public class ZaloQrController {
         // 1) Tạo QR code payload = link chat OA
         String payload = OA_LINK;
 
-        Map<EncodeHintType,Object> hints = Map.of(
-          EncodeHintType.CHARACTER_SET, "UTF-8",
-          EncodeHintType.MARGIN,         Integer.valueOf(1)
+        Map<EncodeHintType, Object> hints = Map.of(
+                EncodeHintType.CHARACTER_SET, "UTF-8",
+                EncodeHintType.MARGIN, Integer.valueOf(1)
         );
         BitMatrix matrix = new MultiFormatWriter()
-            .encode(payload, BarcodeFormat.QR_CODE, 300, 300, hints);
+                .encode(payload, BarcodeFormat.QR_CODE, 300, 300, hints);
 
         // 2) Chuyển thành BufferedImage
         BufferedImage qrImg = MatrixToImageWriter.toBufferedImage(matrix);
 
         // 3) Đọc logo Zalo (kích thước nhỏ ~ 60×60)
         //    Thả file zalo-logo.png trong /src/main/resources/static/images/
-        InputStream logoIs = 
-            getClass().getResourceAsStream("/static/images/zalo-logo.png");
+        InputStream logoIs =
+                getClass().getResourceAsStream("/static/images/zalo-logo.png");
         BufferedImage logo = ImageIO.read(logoIs);
 
         // 4) Vẽ nền trắng tròn + overlay logo

@@ -3,7 +3,8 @@
 <head>
     <title>Thống kê doanh thu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
         .report-card {
             cursor: pointer;
@@ -31,6 +32,7 @@
         .card-title {
             margin-top: 0.5rem;
         }
+
         .report-section {
             display: none;
             opacity: 0;
@@ -73,10 +75,10 @@
     <h1 class="mb-4 text-center">📊 Tổng hợp thống kê doanh thu</h1>
 
     <div class="d-flex justify-content-center gap-3 mb-4">
-        <a href="/admin/dashboard" class="btn btn-outline-primary">
+        <a href="/admin/dashboard" class="btn btn-outline-secondary">
             <i class="fa-solid fa-arrow-left"></i> Quay về trang Admin
         </a>
-        <a href="/index" class="btn btn-outline-secondary">
+        <a href="/index" class="btn btn-outline-primary">
             <i class="fa-solid fa-house"></i> Về trang Chủ
         </a>
     </div>
@@ -94,7 +96,8 @@
                    th:value="${to != null ? #dates.format(to,'yyyy-MM-dd') : ''}">
         </div>
         <div class="col-md-4 align-self-end">
-            <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-filter"></i> Lọc theo ngày</button>
+            <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-filter"></i> Lọc theo ngày
+            </button>
         </div>
     </form>
 
@@ -163,7 +166,12 @@
     <div id="section-day" class="report-section">
         <h4>Doanh thu theo ngày</h4>
         <table class="table table-bordered">
-            <thead><tr><th>Ngày</th><th class="text-end">Doanh thu</th></tr></thead>
+            <thead>
+            <tr>
+                <th>Ngày</th>
+                <th class="text-end">Doanh thu</th>
+            </tr>
+            </thead>
             <tbody>
             <tr th:each="row : ${byDay}">
                 <td th:text="${row[0]}"></td>
@@ -176,7 +184,12 @@
     <div id="section-month" class="report-section">
         <h4>Doanh thu theo tháng</h4>
         <table class="table table-bordered">
-            <thead><tr><th>Tháng</th><th class="text-end">Doanh thu</th></tr></thead>
+            <thead>
+            <tr>
+                <th>Tháng</th>
+                <th class="text-end">Doanh thu</th>
+            </tr>
+            </thead>
             <tbody>
             <tr th:each="row : ${byMonth}">
                 <td th:text="${row[0]} + '-' + ${row[1]}"></td>
@@ -189,7 +202,12 @@
     <div id="section-year" class="report-section">
         <h4>Doanh thu theo năm</h4>
         <table class="table table-bordered">
-            <thead><tr><th>Năm</th><th class="text-end">Doanh thu</th></tr></thead>
+            <thead>
+            <tr>
+                <th>Năm</th>
+                <th class="text-end">Doanh thu</th>
+            </tr>
+            </thead>
             <tbody>
             <tr th:each="row : ${byYear}">
                 <td th:text="${row[0]}"></td>
@@ -202,7 +220,13 @@
     <div id="section-product" class="report-section">
         <h4>Doanh thu theo sản phẩm</h4>
         <table class="table table-bordered">
-            <thead><tr><th>ID</th><th>Tên sản phẩm</th><th class="text-end">Doanh thu</th></tr></thead>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên sản phẩm</th>
+                <th class="text-end">Doanh thu</th>
+            </tr>
+            </thead>
             <tbody>
             <tr th:each="row : ${byProduct}">
                 <td th:text="${row[0]}"></td>
@@ -216,7 +240,13 @@
     <div id="section-category" class="report-section">
         <h4>Doanh thu theo danh mục</h4>
         <table class="table table-bordered">
-            <thead><tr><th>ID</th><th>Tên danh mục</th><th class="text-end">Doanh thu</th></tr></thead>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên danh mục</th>
+                <th class="text-end">Doanh thu</th>
+            </tr>
+            </thead>
             <tbody>
             <tr th:each="row : ${byCategory}">
                 <td th:text="${row[0]}"></td>
@@ -230,7 +260,12 @@
     <div id="section-payment" class="report-section">
         <h4>Doanh thu theo phương thức thanh toán</h4>
         <table class="table table-bordered">
-            <thead><tr><th>Phương thức</th><th class="text-end">Doanh thu</th></tr></thead>
+            <thead>
+            <tr>
+                <th>Phương thức</th>
+                <th class="text-end">Doanh thu</th>
+            </tr>
+            </thead>
             <tbody>
             <tr th:each="row : ${byPayment}">
                 <td th:text="${row[0] != null ? row[0] : 'N/A'}"></td>
@@ -243,7 +278,13 @@
     <div id="section-user" class="report-section">
         <h4>Doanh thu theo người dùng</h4>
         <table class="table table-bordered">
-            <thead><tr><th>ID</th><th>Họ tên</th><th class="text-end">Doanh thu</th></tr></thead>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Họ tên</th>
+                <th class="text-end">Doanh thu</th>
+            </tr>
+            </thead>
             <tbody>
             <tr th:each="row : ${byUser}">
                 <td th:text="${row[0]}"></td>
@@ -292,7 +333,7 @@
     });
 
     function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({top: 0, behavior: "smooth"});
     }
 </script>
 

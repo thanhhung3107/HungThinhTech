@@ -13,7 +13,9 @@
     <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
 
     <a th:href="@{/category/create}" class="btn btn-primary">Tạo mới</a>
-
+    <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left-circle"></i> Quay lại trang Admin
+    </a>
     <table class="table">
         <thead>
         <tr>

@@ -1,12 +1,11 @@
-
 package com.poly.model;
-
-import java.io.Serializable;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -26,7 +25,7 @@ public class OrderDetail implements Serializable {
     @ManyToOne
     @JoinColumn(name = "product_id") // Consistent naming
     private Product product;
-    
+
     @ManyToOne
     @JoinColumn(name = "size_id", nullable = false)
     private Size size; // Thêm quan hệ với Size
